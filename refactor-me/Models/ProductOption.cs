@@ -33,6 +33,7 @@ namespace refactor_me.Models
             var cmd = new SqlCommand($"select * from productoption where id = '{id}'", conn);
             conn.Open();
 
+            //Confirm that the ProductOption exists.
             var rdr = cmd.ExecuteReader();
             if (!rdr.Read())
             {

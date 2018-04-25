@@ -35,9 +35,12 @@ namespace refactor_me.Models
             var cmd = new SqlCommand($"select * from product where id = '{id}'", conn);
             conn.Open();
 
+            //Confirm that the Product exists.
             var rdr = cmd.ExecuteReader();
             if (!rdr.Read())
+            {
                 return;
+            }
 
             IsNew = false;
             Id = Guid.Parse(rdr["Id"].ToString());
@@ -61,7 +64,9 @@ namespace refactor_me.Models
         public void Delete()
         {
             foreach (var option in new ProductOptions(Id).Items)
+            {
                 option.Delete();
+            }
 
             var conn = Helpers.NewConnection();
             conn.Open();

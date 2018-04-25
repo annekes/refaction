@@ -28,7 +28,9 @@ namespace refactor_me.Controllers
         {
             var product = new Product(id);
             if (product.IsNew)
+            {
                 throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             return product;
         }
@@ -53,7 +55,9 @@ namespace refactor_me.Controllers
             };
 
             if (!orig.IsNew)
+            {
                 orig.Save();
+            }
         }
 
         [Route("{id}")]
@@ -76,8 +80,9 @@ namespace refactor_me.Controllers
         public ProductOption GetOption(Guid productId, Guid id)
         {
             var option = new ProductOption(id);
-            if (option.IsNew)
+            if (option.IsNew) { 
                 throw new HttpResponseException(HttpStatusCode.NotFound);
+            }
 
             return option;
         }
@@ -101,7 +106,9 @@ namespace refactor_me.Controllers
             };
 
             if (!orig.IsNew)
+            {
                 orig.Save();
+            }
         }
 
         [Route("{productId}/options/{id}")]
