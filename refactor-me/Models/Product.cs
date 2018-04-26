@@ -33,7 +33,7 @@ namespace refactor_me.Models
             IsNew = true;
 
             //Confirm that the Product exists.
-            var rdr = ExecuteSQL($"select * from product where id = '{id}'");
+            var rdr = Helpers.ExecuteSQL($"select * from product where id = '{id}'");
             if (rdr.Read())
             {
                 IsNew = false;
@@ -51,7 +51,7 @@ namespace refactor_me.Models
             var cmdText = IsNew ?
                 $"insert into product (id, name, description, price, deliveryprice) values ('{Id}', '{Name}', '{Description}', {Price}, {DeliveryPrice})" :
                 $"update product set name = '{Name}', description = '{Description}', price = {Price}, deliveryprice = {DeliveryPrice} where id = '{Id}'";
-            ExecuteSQL(cmdText);
+            Helpers.ExecuteSQL(cmdText);
         }
 
         /* 
@@ -70,7 +70,7 @@ namespace refactor_me.Models
         public List<ProductOption> Options()
         {
             List<ProductOption> productOptions = new List<ProductOption>();
-            var rdr = ExecuteSQL($"select id from productoption where productid = '{Id}'");
+            var rdr = Helpers.ExecuteSQL($"select id from productoption where productid = '{Id}'");
 
             while (rdr.Read())
             {

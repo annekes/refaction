@@ -29,7 +29,7 @@ namespace refactor_me.Models
         public ProductOption(Guid id)
         {
             IsNew = true;
-            var rdr = ExecuteSQL($"select * from productoption where id = '{id}'");
+            var rdr = Helpers.ExecuteSQL($"select * from productoption where id = '{id}'");
 
             if (rdr.Read())
             {
@@ -63,7 +63,7 @@ namespace refactor_me.Models
 
         public void Delete()
         {
-            ExecuteSQL($"delete from productoption where id = '{Id}'");
+            Helpers.ExecuteSQL($"delete from productoption where id = '{Id}'");
         }
 
         public void AssignProduct(Guid productId)
