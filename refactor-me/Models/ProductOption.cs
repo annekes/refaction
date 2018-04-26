@@ -29,41 +29,46 @@ namespace refactor_me.Models
         public ProductOption(Guid id)
         {
             IsNew = true;
-            var conn = Helpers.NewConnection();
-            var cmd = new SqlCommand($"select * from productoption where id = '{id}'", conn);
-            conn.Open();
+            var rdr = ExecuteSQL($"select * from productoption where id = '{id}'");
 
-            //Confirm that the ProductOption exists.
-            var rdr = cmd.ExecuteReader();
-            if (!rdr.Read())
+            if (rdr.Read())
             {
-                return;
+                IsNew = false;
+                Id = Guid.Parse(rdr["Id"].ToString());
+                ProductId = Guid.Parse(rdr["ProductId"].ToString());
+                Name = rdr["Name"].ToString();
+                Description = (DBNull.Value == rdr["Description"]) ? null : rdr["Description"].ToString();
             }
 
-            IsNew = false;
-            Id = Guid.Parse(rdr["Id"].ToString());
-            ProductId = Guid.Parse(rdr["ProductId"].ToString());
-            Name = rdr["Name"].ToString();
-            Description = (DBNull.Value == rdr["Description"]) ? null : rdr["Description"].ToString();
         }
 
         public void Save()
         {
-            var conn = Helpers.NewConnection();
             var cmd = IsNew ?
-                new SqlCommand($"insert into productoption (id, productid, name, description) values ('{Id}', '{ProductId}', '{Name}', '{Description}')", conn) :
-                new SqlCommand($"update productoption set name = '{Name}', description = '{Description}' where id = '{Id}'", conn);
+                $"insert into productoption (id, productid, name, description) values ('{Id}', '{ProductId}', '{Name}', '{Description}')" :
+                $"update productoption set name = '{Name}', description = '{Description}' where id = '{Id}'";
+            Helpers.ExecuteSQL(cmd);
+        }
 
-            conn.Open();
-            cmd.ExecuteNonQuery();
+        /* 
+         * Updates this Product with the Name, Description, Price, and DeliveryPrice of newProduct
+         **/
+        public ProductOption Update(ProductOption newOption)
+        {
+            Name = newOption.Name;
+            Description = newOption.Description;
+
+            return this;
         }
 
         public void Delete()
         {
-            var conn = Helpers.NewConnection();
-            conn.Open();
-            var cmd = new SqlCommand($"delete from productoption where id = '{Id}'", conn);
-            cmd.ExecuteReader();
+            ExecuteSQL($"delete from productoption where id = '{Id}'");
+        }
+
+        public void AssignProduct(Guid productId)
+        {
+            ProductId = productId;
         }
     }
 }

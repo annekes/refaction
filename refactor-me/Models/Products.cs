@@ -16,17 +16,14 @@ namespace refactor_me.Models
 
         public Products(string name)
         {
-            LoadProducts($"where lower(name) like '%{name.ToLower()}%'");
+            LoadProducts(name);
         }
 
-        private void LoadProducts(string where)
+        private void LoadProducts(string name)
         {
             Items = new List<Product>();
-            var conn = Helpers.NewConnection();
-            var cmd = new SqlCommand($"select id from product {where}", conn);
-            conn.Open();
+            var rdr = Helpers.ExecuteSQL($"select id from product where lower(name) like '%{name.ToLower()}%'");
 
-            var rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
                 var id = Guid.Parse(rdr["id"].ToString());

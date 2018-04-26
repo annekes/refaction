@@ -46,17 +46,11 @@ namespace refactor_me.Controllers
         [HttpPut]
         public void Update(Guid id, Product product)
         {
-            var orig = new Product(id)
-            {
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                DeliveryPrice = product.DeliveryPrice
-            };
+            var updatedProduct = new Product(id).Update(product);
 
-            if (!orig.IsNew)
+            if (!updatedProduct.IsNew)
             {
-                orig.Save();
+                updatedProduct.Save();
             }
         }
 
@@ -99,15 +93,11 @@ namespace refactor_me.Controllers
         [HttpPut]
         public void UpdateOption(Guid id, ProductOption option)
         {
-            var orig = new ProductOption(id)
-            {
-                Name = option.Name,
-                Description = option.Description
-            };
+            var updatedOption = new ProductOption(id).Update(option);
 
-            if (!orig.IsNew)
+            if (!updatedOption.IsNew)
             {
-                orig.Save();
+                updatedOption.Save();
             }
         }
 
@@ -115,8 +105,8 @@ namespace refactor_me.Controllers
         [HttpDelete]
         public void DeleteOption(Guid id)
         {
-            var opt = new ProductOption(id);
-            opt.Delete();
+            var option = new ProductOption(id);
+            option.Delete();
         }
     }
 }

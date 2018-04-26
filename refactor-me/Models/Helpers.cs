@@ -7,10 +7,18 @@ namespace refactor_me.Models
     {
         private const string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={DataDirectory}\Database.mdf;Integrated Security=True";
 
-        public static SqlConnection NewConnection()
+        public static SqlDataReader ExecuteSQL(string cmdText)
         {
-            var connstr = ConnectionString.Replace("{DataDirectory}", HttpContext.Current.Server.MapPath("~/App_Data"));
-            return new SqlConnection(connstr);
+            var conn = NewConnection();
+            var cmd = new SqlCommand(cmdText, conn);
+            conn.Open();
+
+            return cmd.ExecuteReader();
+        }
+        private static SqlConnection NewConnection()
+        {
+            var connStr = ConnectionString.Replace("{DataDirectory}", HttpContext.Current.Server.MapPath("~/App_Data"));
+            return new SqlConnection(connStr);
         }
     }
 }
