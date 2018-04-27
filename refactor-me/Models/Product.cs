@@ -46,16 +46,8 @@ namespace refactor_me.Models
 
         }
 
-        public void Save()
-        {
-            var cmdText = IsNew ?
-                $"insert into product (id, name, description, price, deliveryprice) values ('{Id}', '{Name}', '{Description}', {Price}, {DeliveryPrice})" :
-                $"update product set name = '{Name}', description = '{Description}', price = {Price}, deliveryprice = {DeliveryPrice} where id = '{Id}'";
-            Helpers.ExecuteSQL(cmdText);
-        }
-
         /* 
-         * Updates this Product with the Name, Description, Price, and DeliveryPrice of newProduct
+         * Updates product with changed details
          **/
         public Product Update(Product newProduct)
         {
@@ -66,7 +58,10 @@ namespace refactor_me.Models
 
             return this;
         }
-        
+
+        /* 
+         * List product's options
+         **/
         public List<ProductOption> Options()
         {
             List<ProductOption> productOptions = new List<ProductOption>();
@@ -80,6 +75,20 @@ namespace refactor_me.Models
             return productOptions;
         }
 
+        /*
+         * Save product to db
+         **/
+        public void Save()
+        {
+            var cmdStr = IsNew ?
+                $"insert into product (id, name, description, price, deliveryprice) values ('{Id}', '{Name}', '{Description}', {Price}, {DeliveryPrice})" :
+                $"update product set name = '{Name}', description = '{Description}', price = {Price}, deliveryprice = {DeliveryPrice} where id = '{Id}'";
+            Helpers.ExecuteSQL(cmdStr);
+        }
+
+        /*
+         * Delete product from db
+         **/
         public void Delete()
         {
             foreach (var option in new ProductOptions(Id).Items)

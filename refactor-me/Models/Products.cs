@@ -19,10 +19,16 @@ namespace refactor_me.Models
             LoadProducts(name);
         }
 
+        /*
+         * Loads list of products according to name, if no name given it lists all products.
+         **/
         private void LoadProducts(string name)
         {
             Items = new List<Product>();
-            var rdr = Helpers.ExecuteSQL($"select id from product where lower(name) like '%{name.ToLower()}%'");
+            var cmdStr = (name == null) ?
+                $"select id from product" :
+                $"select id from product where lower(name) like '%{name.ToLower()}%'";
+            var rdr = Helpers.ExecuteSQL(cmdStr);
 
             while (rdr.Read())
             {

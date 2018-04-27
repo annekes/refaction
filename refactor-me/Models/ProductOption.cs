@@ -41,17 +41,13 @@ namespace refactor_me.Models
             }
 
         }
-
-        public void Save()
+        public void SetProductId(Guid productId)
         {
-            var cmd = IsNew ?
-                $"insert into productoption (id, productid, name, description) values ('{Id}', '{ProductId}', '{Name}', '{Description}')" :
-                $"update productoption set name = '{Name}', description = '{Description}' where id = '{Id}'";
-            Helpers.ExecuteSQL(cmd);
+            ProductId = productId;
         }
 
         /* 
-         * Updates this Product with the Name, Description, Price, and DeliveryPrice of newProduct
+         * Updates product option with new details
          **/
         public ProductOption Update(ProductOption newOption)
         {
@@ -61,14 +57,23 @@ namespace refactor_me.Models
             return this;
         }
 
+        /*
+         * Save product option to db
+         **/
+        public void Save()
+        {
+            var cmd = IsNew ?
+                $"insert into productoption (id, productid, name, description) values ('{Id}', '{ProductId}', '{Name}', '{Description}')" :
+                $"update productoption set name = '{Name}', description = '{Description}' where id = '{Id}'";
+            Helpers.ExecuteSQL(cmd);
+        }
+
+        /*
+         * Delete product from db
+         **/
         public void Delete()
         {
             Helpers.ExecuteSQL($"delete from productoption where id = '{Id}'");
-        }
-
-        public void AssignProduct(Guid productId)
-        {
-            ProductId = productId;
         }
     }
 }
