@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using Newtonsoft.Json;
-using System.Linq;
-using System.Web;
 
 namespace refactor_me.Models
 {

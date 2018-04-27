@@ -74,7 +74,8 @@ namespace refactor_me.Controllers
         public ProductOption GetOption(Guid productId, Guid id)
         {
             var option = new ProductOption(id);
-            if (option.IsNew) { 
+            if (option.IsNew)
+            { 
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
 
