@@ -8,7 +8,7 @@ namespace refactor_me.Models
         private const string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={DataDirectory}\Database.mdf;Integrated Security=True";
 
         /*
-         * Executes command string given and returns reader
+         * Executes command string given and returns sql data reader
          **/
         public static SqlDataReader ExecuteSQL(string cmdStr)
         {
