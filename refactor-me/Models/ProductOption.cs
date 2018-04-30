@@ -25,7 +25,7 @@ namespace refactor_me.Models
         public ProductOption(Guid id)
         {
             IsNew = true;
-            var rdr = Helpers.ExecuteSQL($"select * from productoption where id = '{id}'");
+            var rdr = Helpers.ExecuteSQL($"SELECT * FROM productoption WHERE id = '{id}'");
 
             if (rdr.Read())
             {
@@ -59,8 +59,8 @@ namespace refactor_me.Models
         public void Save()
         {
             var cmd = IsNew ?
-                $"insert into productoption (id, productid, name, description) values ('{Id}', '{ProductId}', '{Name}', '{Description}')" :
-                $"update productoption set name = '{Name}', description = '{Description}' where id = '{Id}'";
+                $"INSERT INTO productoption (id, productid, name, description) VALUES ('{Id}', '{ProductId}', '{Name}', '{Description}')" :
+                $"UPDATE productoption SET name = '{Name}', description = '{Description}' WHERE id = '{Id}'";
             Helpers.ExecuteSQL(cmd);
         }
 
@@ -69,7 +69,7 @@ namespace refactor_me.Models
          **/
         public void Delete()
         {
-            Helpers.ExecuteSQL($"delete from productoption where id = '{Id}'");
+            Helpers.ExecuteSQL($"DELETE FROM productoption WHERE id = '{Id}'");
         }
     }
 }

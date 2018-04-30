@@ -24,10 +24,10 @@ namespace refactor_me.Models
         {
             Items = new List<ProductOption>();
 
-            var cmdStr = "select id from productoption";
+            var cmdStr = "SELECT id FROM productoption";
             cmdStr = productId.Equals(Guid.Empty) ?
                 cmdStr :
-                $"{cmdStr} where productid = '{productId}'";
+                $"{cmdStr} WHERE productid = '{productId}'";
 
             var rdr = Helpers.ExecuteSQL(cmdStr);
 
