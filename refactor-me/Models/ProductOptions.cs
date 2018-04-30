@@ -9,12 +9,33 @@ namespace refactor_me.Models
 
         public ProductOptions()
         {
-            Items = new List<ProductOption>();
+            LoadProductOptions(Guid.Empty);
         }
 
         public ProductOptions(Guid productId)
         {
-            Items = new Product(productId).Options();
+            LoadProductOptions(productId);
+        }
+
+        /*
+         * Loads list of product options according to id, if no name given it lists all products.
+         **/
+        private void LoadProductOptions(Guid productId)
+        {
+            Items = new List<ProductOption>();
+
+            var cmdStr = "select id from productoption";
+            cmdStr = productId.Equals(Guid.Empty) ?
+                cmdStr :
+                $"{cmdStr} where productid = '{productId}'";
+
+            var rdr = Helpers.ExecuteSQL(cmdStr);
+
+            while (rdr.Read())
+            {
+                var id = Guid.Parse(rdr["id"].ToString());
+                Items.Add(new ProductOption(id));
+            }
         }
     }
 }

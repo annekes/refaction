@@ -56,22 +56,6 @@ namespace refactor_me.Models
             return this;
         }
 
-        /* 
-         * List product's options
-         **/
-        public List<ProductOption> Options()
-        {
-            List<ProductOption> productOptions = new List<ProductOption>();
-            var rdr = Helpers.ExecuteSQL($"select id from productoption where productid = '{Id}'");
-
-            while (rdr.Read())
-            {
-                var id = Guid.Parse(rdr["id"].ToString());
-                productOptions.Add(new ProductOption(id));
-            }
-            return productOptions;
-        }
-
         /*
          * Save product to db
          **/

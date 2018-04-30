@@ -23,9 +23,13 @@ namespace refactor_me.Models
         private void LoadProducts(string name)
         {
             Items = new List<Product>();
-            var cmdStr = (name == null) ?
-                $"select id from product" :
-                $"select id from product where lower(name) like '%{name.ToLower()}%'";
+
+            var cmdStr = "select id from product";
+            if (name != null)
+            {
+                cmdStr = $"{cmdStr} where lower(name) like '%{name.ToLower()}%'";
+            }
+
             var rdr = Helpers.ExecuteSQL(cmdStr);
 
             while (rdr.Read())
